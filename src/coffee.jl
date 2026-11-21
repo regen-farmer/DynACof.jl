@@ -212,6 +212,14 @@ function coffee_model!(Sim, Parameters, Met_c, i, n_i=size(Sim, 1))
         is_harvest = (Sim.Plot_Age[i] >= Parameters.ageMaturity) &
                      all(Sim.NPP_Fruit[previous_i.(i, 0:10)] .< Sim.Overriped_Fruit[previous_i.(i, 0:10)]) &
                      (Sim.CM_Fruit[previous_i(i)] > Parameters.Min_Fruit_CM)
+        # DYN-09 (robusta fork): when the next crop's young fruits grow while the old crop ripens
+        # (late flowering, overlapping cohorts), fruit NPP never falls below overripening for 10 days and the
+        # crop is never harvested. A latest harvest day closes the season (off by default).
+        if !is_harvest && Parameters.Harvest_latest_doy > 0 && Met_c.DOY[i] == Parameters.Harvest_latest_doy &&
+           Sim.Plot_Age[i] >= Parameters.ageMaturity && Sim.CM_Fruit[previous_i(i)] > Parameters.Min_Fruit_CM &&
+           !any(Sim.Date_harvest[max(1, i - 200):previous_i(i)] .> 0)
+            is_harvest = true
+        end
         # Made as soon as the fruit dry mass is decreasing for 10 consecutive days.
         # This condition is met when fruit overriping is more important than fruit NPP
         # for 10 days.

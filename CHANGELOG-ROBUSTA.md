@@ -12,7 +12,8 @@ Grove's fork of [DynACof.jl](https://github.com/VEZY/DynACof.jl) (Rémi Vezy, CI
 | ID | Version | Date | What | Why | Switch | Evidence before → after | Decided |
 |---|---|---|---|---|---|---|---|
 | – | rb-v0 | 2026-11-20 | Baseline: upstream v1.5.3 | Benchmark 1 (Vietnam): test MAPE 18 %; harvest Jun–Oct; can't run without shade trees | – | – | – |
-| DYN-01 | rb-v1 | 2026-11-21 | `soil.jl`: use `wleaf_Tree` only when there are shade trees | Without shade trees the parameters have no `wleaf_Tree`, so full-sun coffee crashed | None needed: with shade trees nothing changes | Full sun runs (Benchmark 1 rerun) | Kris, 20 Nov (iteration 1) |
+| DYN-01 | rb-v1 | 2026-11-21 | `soil.jl`: use `wleaf_Tree` only when there are shade trees | Without shade trees the parameters have no `wleaf_Tree`, so full-sun coffee crashed | None needed: with shade trees nothing changes (Vietnam benchmark with 1 tree/ha: identical yields with the fork and v1.5.3) | Full sun runs | Kris, 20 Nov (iteration 1) |
+| DYN-09 | rb-v1 | 2026-11-21 | `Harvest_latest_doy` (coffee parameter): with `harvest = "quantity"`, harvest on that day at the latest if there was no harvest in the last 200 days | Rerun with the robusta set: in ~1 year in 4 (late first flowering, overlapping cohorts) the next crop's young fruits kept fruit NPP above overripening, so the 10-day harvest rule never fired and the crop was lost (Dak Lak 2005, 2007: yield 0, fruit overripened) | 0 = off (default) | See the iteration-1 report | Claude, 21 Nov (found in the rerun) |
 
 ## Robusta parameter set rb-v1 (DYN-02, DYN-03, DYN-04)
 Parameters only, no code: given to `dynacof` like any other parameter set.

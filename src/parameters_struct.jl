@@ -141,6 +141,7 @@ Base.@kwdef struct coffee
     #                    "quantity" -> harvest when fruit dry mass is at maximum.
     # NB: "quality" requires a well-set maturation module.
     Min_Fruit_CM::Float64      = 20.0       # Minimum fruit carbon mass below which harvest cannot be triggered
+    Harvest_latest_doy::Int64  = 0          # DYN-09 (robusta fork): with harvest = "quantity", harvest on this day of year at the latest if no harvest in the last 200 days (0 = off)
     FtS::Float64               = 0.63       # Fruit to seed ratio (g g-1). Source: Wintgens
     lambda_Shoot::Float64      = 0.14       # Allocation coefficient to resprout wood
     lambda_SCR::Float64        = 0.075      # Allocation coefficient to stump and coarse roots.
