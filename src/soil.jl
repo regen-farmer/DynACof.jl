@@ -39,7 +39,9 @@ function soil_model!(Sim,Parameters,Met_c,i)
         PENMON(Rn= Met_c.Rn[i], Wind= Met_c.WindSpeed[i], Tair = Met_c.Tair[i],
                ZHT = Parameters.ZHT, Z_top = max(Sim.Height_Tree[i], Parameters.Height_Coffee),
                Pressure = Met_c.Pressure[i], Gs = 1E09, VPD = Met_c.VPD[i], LAI= Sim.LAIplot[i],
-               extwind = Parameters.extwind, wleaf= mean((Parameters.wleaf,Parameters.wleaf_Tree)))
+               extwind = Parameters.extwind,
+               # DYN-01 (robusta fork): without shade trees the parameters have no wleaf_Tree
+               wleaf= hasproperty(Parameters, :wleaf_Tree) ? mean((Parameters.wleaf,Parameters.wleaf_Tree)) : Parameters.wleaf)
 
     if Sim.CanopyHumect[i] <= Sim.IntercMax[i]
         Sim.Throughfall[i]= 0.0
